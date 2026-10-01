@@ -1,0 +1,61 @@
+{
+  "entities": {
+    "Song": {
+      "title": "Song",
+      "description": "A music track or music video published in SONUS",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "youtubeId": { "type": "string" },
+        "title": { "type": "string", "maxLength": 200 },
+        "artist": { "type": "string", "maxLength": 100 },
+        "thumbnailUrl": { "type": "string", "maxLength": 500 },
+        "duration": { "type": "string", "maxLength": 20 },
+        "category": { "type": "string", "maxLength": 50 },
+        "authorId": { "type": "string" },
+        "authorName": { "type": "string", "maxLength": 100 },
+        "authorPhoto": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["youtubeId", "title", "artist", "authorId"]
+    },
+    "Reaction": {
+      "title": "Reaction",
+      "description": "User emoji reaction on a music video",
+      "type": "object",
+      "properties": {
+        "songId": { "type": "string" },
+        "userId": { "type": "string" },
+        "emoji": { "type": "string", "enum": ["heart", "fire", "hands", "tear", "note"] },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["songId", "userId", "emoji"]
+    },
+    "Follow": {
+      "title": "Follow",
+      "description": "Artist followed by a user",
+      "type": "object",
+      "properties": {
+        "artistId": { "type": "string" },
+        "artistName": { "type": "string", "maxLength": 100 },
+        "artistAvatar": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string" }
+      },
+      "required": ["artistId", "artistName"]
+    }
+  },
+  "firestore": {
+    "/songs/{songId}": {
+      "schema": "Song",
+      "description": "Published community music tracks and videos"
+    },
+    "/songs/{songId}/reactions/{userId}": {
+      "schema": "Reaction",
+      "description": "Individual emoji reactions by users on songs"
+    },
+    "/users/{userId}/following/{artistId}": {
+      "schema": "Follow",
+      "description": "Artists followed by a specific user"
+    }
+  }
+}

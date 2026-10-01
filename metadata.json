@@ -1,0 +1,6 @@
+{
+  "name": "SONUS",
+  "description": "Exclusive music and music video platform with trending tracks, curated new releases, YouTube music search, and real-time community reactions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

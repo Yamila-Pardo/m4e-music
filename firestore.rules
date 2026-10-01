@@ -1,0 +1,37 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Public test document for connection check
+    match /test/{docId} {
+      allow read: if true;
+    }
+
+    // Music songs & videos
+    match /songs/{songId} {
+      allow read: if true;
+      allow create: if request.auth != null 
+                    && request.resource.data.authorId == request.auth.uid
+                    && request.resource.data.title is string
+                    && request.resource.data.title.size() <= 200
+                    && request.resource.data.youtubeId is string;
+      allow update: if request.auth != null;
+      allow delete: if request.auth != null && resource.data.authorId == request.auth.uid;
+
+      // Reactions subcollection
+      match /reactions/{userId} {
+        allow read: if true;
+        allow write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // User following list
+    match /users/{userId}/following/{artistId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+  }
+}
